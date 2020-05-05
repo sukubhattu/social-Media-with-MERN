@@ -1,11 +1,16 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
+//initiliazing application
+const app = express();
+
 // importing configuration keys
 const keys = require("./configuration/keys");
 
-//initiliazing application
-const app = express();
+// importing or registering model
+require("./models/users");
+// to use it
+// mongoose.model("User");
 
 // connection with mongoDB
 mongoose.connect(keys.mongoDB.mongoURI, {
