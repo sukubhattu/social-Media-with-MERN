@@ -3,6 +3,12 @@ const express = require("express");
 const router = express.Router();
 // importing mongoose
 const mongoose = require("mongoose");
+// importing JWT for authorization puropose
+const JWT = require("jsonwebtoken");
+
+// importing keys for JWT secret
+const keys = require("../configuration/keys");
+const JWTSecret = keys.JWTSecret.mysecret;
 
 // for hasing password
 const bcrypt = require("bcryptjs");
@@ -86,7 +92,13 @@ router.post("/login", (req, res) => {
                         // checking password mathces or not
                         .then((doMatch) => {
                             if (doMatch) {
-                                return res.send("logged in succesfully");
+                                // return res.send("logged in succesfully");
+                                // adding token after logged in on the basis of user id
+                                const token = JWT.sign(
+                                    { _id: alreadyUser.id },
+                                    JWTSecret
+                                );
+                                res.json({ token });
                             } else {
                                 return res.send("Wrong password");
                             }
