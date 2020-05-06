@@ -4,6 +4,9 @@ const mongoose = require("mongoose");
 //initiliazing application
 const app = express();
 
+// for using json
+app.use(express.json());
+
 // importing configuration keys
 const keys = require("./configuration/keys");
 
@@ -25,6 +28,14 @@ mongoose.connection.on("connected", () => {
 mongoose.connection.on("error", (err) => {
     console.log("failed to connect to the mongodb", err);
 });
+
+// Route goes here
+app.get("/", (req, res) => {
+    res.send("welcome to the index page");
+});
+
+// now turn for auth rotues
+app.use("/auth", require("./routes/authentication"));
 
 // for port of my web server
 const PORT = process.env.PORT || 8000;
