@@ -6,6 +6,9 @@ const mongoose = require("mongoose");
 // importing JWT for authorization puropose
 const JWT = require("jsonwebtoken");
 
+// for requirelogin
+const requireLogin = require("../middleware/requireLogin");
+
 // importing keys for JWT secret
 const keys = require("../configuration/keys");
 const JWTSecret = keys.JWTSecret.mysecret;
@@ -112,5 +115,9 @@ router.post("/login", (req, res) => {
                 console.log(err);
             });
     }
+});
+
+router.get("/protected", requireLogin, (req, res) => {
+    res.send("hey i am protected content");
 });
 module.exports = router;
